@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-formreactive',
@@ -12,21 +12,28 @@ export class FormreactiveComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', [
         Validators.required,
-        Validators.email
+        Validators.pattern('(\\W|^)[\\w.+\\-]*@gmail\\.com(\\W|$)')
       ]),
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6)
       ])
-  })
+  });
+  // form: FormGroup;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   get firstname() {
     return this.form.get('firstName');
   }
 
   ngOnInit() {
+    // this.form = this.formBuilder.group({
+    //   firstName: ['', Validators.required],
+    //   lastName: ['', Validators.required],
+    //   email: ['', Validators.required, Validators.email],
+    //   password: ['', Validators.required, Validators.minLength(6)]
+    // });
   }
   onSubmit() {
     alert(JSON.stringify(this.form.value));
